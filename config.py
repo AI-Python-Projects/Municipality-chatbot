@@ -39,3 +39,11 @@ PRIORITY_BANDS = {
 "medium": 4.0,
 
 }
+SLA_BUFFER        = 1.15
+DEFAULT_SLA_HOURS = {
+"critical": 8,
+"high": 24,
+"medium": 72,
+"low": 168
+}
+
