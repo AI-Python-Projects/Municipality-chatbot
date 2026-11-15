@@ -14,3 +14,17 @@ PREDICTIONS_CSV = os.path.join(OUTPUT_DIR, "all_predictions.csv")
 
 for d in (MODEL_DIR, OUTPUT_DIR):
 os.makedirs(d, exist_ok=True)
+
+COL_DESC = "issue_description"
+COL_TYPE = "issue_type"
+COL_DEPT = "municipal_department"
+COL_PRIORITY = "priority_level"
+COL_SEVERITY = "severity_score"
+COL_AREA = "area_importance"
+COL_REPORTS = "citizen_reports_count"
+COL_ANON = "is_anonymous"
+COL_REPORT_DT = "report_datetime"
+COL_RESOLVE_DT = "resolution_datetime"
+COL_STATUS = "issue_status"
+COL_CITY = "location_city"
+COL_STATE = "location_state"
