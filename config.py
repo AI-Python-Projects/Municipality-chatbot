@@ -32,3 +32,8 @@ COL_STATE = "location_state"
 W_SEVERITY = 0.40
 W_AREA = 0.30
 W_REPORTS = 0.60
+
+PRIORITY_BANDS = {
+"critical": 8.5,
+"high": 7.0,
+"medium": 4.0,
