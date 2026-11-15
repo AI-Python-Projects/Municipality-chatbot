@@ -50,3 +50,15 @@ _TYPE_ALIASES = {
     "illegal-parking": "illegal_parking",
     "illegal-dumping": "illegal_dumping",
 }
+def _norm_dept(s):
+    if pd.isna(s) or not str(s).strip():
+        return None
+    k = str(s).strip().lower()
+    return _DEPT_ALIASES.get(k, str(s).strip())
+
+
+def _norm_type(s):
+    if pd.isna(s) or not str(s).strip():
+        return "unknown"
+    k = str(s).strip().lower()
+    return _TYPE_ALIASES.get(k, k)
