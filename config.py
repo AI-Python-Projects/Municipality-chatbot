@@ -28,3 +28,7 @@ COL_RESOLVE_DT = "resolution_datetime"
 COL_STATUS = "issue_status"
 COL_CITY = "location_city"
 COL_STATE = "location_state"
+
+W_SEVERITY = 0.40
+W_AREA = 0.30
+W_REPORTS = 0.60
