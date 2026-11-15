@@ -37,3 +37,5 @@ PRIORITY_BANDS = {
 "critical": 8.5,
 "high": 7.0,
 "medium": 4.0,
+
+}
