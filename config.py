@@ -1,10 +1,10 @@
 import os
- 
+
 BASE_DIR = os.path.dirname(os.path.abspath(file))
 DATA_DIR = os.path.join(BASE_DIR, "data")
 MODEL_DIR = os.path.join(BASE_DIR, "models")
 OUTPUT_DIR = os.path.join(BASE_DIR, "outputs")
- 
+
 TRAIN_CSV = os.path.join(DATA_DIR, "municipal_training_set_1100.csv")
 TEST_CSV = os.path.join(DATA_DIR, "Testing.csv")
 MODEL_PATH = os.path.join(MODEL_DIR, "municipal_model.pkl")
