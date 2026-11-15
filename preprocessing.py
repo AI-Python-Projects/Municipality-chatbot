@@ -44,3 +44,9 @@ _DEPT_ALIASES = {
     "code enforcement":      "Public Works",
     "postal services":       "Public Works",
 }
+_TYPE_ALIASES = {
+    "water-leak": "water_leakage",
+    "water_leak": "water_leakage",
+    "illegal-parking": "illegal_parking",
+    "illegal-dumping": "illegal_dumping",
+}
