@@ -62,3 +62,16 @@ def _norm_type(s):
         return "unknown"
     k = str(s).strip().lower()
     return _TYPE_ALIASES.get(k, k)
+
+def _to_bool(s):
+    if pd.isna(s):
+        return 0
+    if isinstance(s, bool):
+        return int(s)
+    return int(str(s).strip().lower() in ("true", "1", "yes"))
+
+
+def _norm_str(s):
+    if pd.isna(s) or not str(s).strip():
+        return "unknown"
+    return str(s).strip().lower()
