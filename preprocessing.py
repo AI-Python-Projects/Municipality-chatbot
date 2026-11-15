@@ -75,3 +75,18 @@ def _norm_str(s):
     if pd.isna(s) or not str(s).strip():
         return "unknown"
     return str(s).strip().lower()
+
+def compute_priority(severity, area, reports):
+    score = round(
+        W_SEVERITY * float(severity)
+        + W_AREA   * float(area)
+        + W_REPORTS * (float(reports) / 10.0),
+        2,
+    )
+    if score >= PRIORITY_BANDS["critical"]:
+        return score, "critical"
+    if score >= PRIORITY_BANDS["high"]:
+        return score, "high"
+    if score >= PRIORITY_BANDS["medium"]:
+        return score, "medium"
+    return score, "low"
