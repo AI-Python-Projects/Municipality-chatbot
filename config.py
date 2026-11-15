@@ -46,4 +46,5 @@ DEFAULT_SLA_HOURS = {
 "medium": 72,
 "low": 168
 }
+MIN_SAMPLES_PER_CLASS = 5
 
