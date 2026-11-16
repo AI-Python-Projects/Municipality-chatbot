@@ -111,3 +111,22 @@ df["reports"]  = pd.to_numeric(df[COL_REPORTS],  errors="coerce").fillna(0.0)
 
 # Categorical
 df["is_anonymous"] = df[COL_ANON].apply(_to_bool)
+# Location
+df["city"]  = df[COL_CITY].apply(_norm_str)  if COL_CITY  in df.columns else "unknown"
+df["state"] = df[COL_STATE].apply(_norm_str) if COL_STATE in df.columns else "unknown"
+
+    # Datetime
+dt_rep = pd.to_datetime(df[COL_REPORT_DT],  errors="coerce")
+dt_res = pd.to_datetime(df[COL_RESOLVE_DT], errors="coerce")
+
+df["report_datetime"]     = dt_rep
+df["resolution_datetime"] = dt_res
+df["report_hour"]         = dt_rep.dt.hour.fillna(12).astype(int)
+df["report_day_of_week"]  = dt_rep.dt.dayofweek.fillna(2).astype(int)
+df["report_month"]        = dt_rep.dt.month.fillna(6).astype(int)
+df["is_weekend"]          = df["report_day_of_week"].isin([5, 6]).astype(int)
+df["resolution_hours"]    = ((dt_res - dt_rep).dt.total_seconds() / 3600).round(2)
+
+    # Meta
+df["priority_level"] = df[COL_PRIORITY].fillna("medium").astype(str).str.lower()
+df["status"] = df[COL_STATUS].fillna("unknown").astype(str).str.lower()
