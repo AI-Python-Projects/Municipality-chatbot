@@ -90,15 +90,24 @@ def compute_priority(severity, area, reports):
     if score >= PRIORITY_BANDS["medium"]:
         return score, "medium"
     return score, "low"
-    def load_and_prepare(path):
+def load_and_prepare(path):
     df = pd.read_csv(path)
-
     df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
     df.columns = [c.strip() for c in df.columns]
+
     # Target
 df["department"] = df[COL_DEPT].apply(_norm_dept)
+df = df[df["department"].notna()].reset_index(drop=True)
 
 # Text
 df["issue_type"]  = df[COL_TYPE].apply(_norm_type)
 df["description"] = df[COL_DESC].fillna("").astype(str)
-df["text"] = ...
+df["text"]        = (df["issue_type"] + " " + df["description"]).str.lower()
+
+# Numeric
+df["severity"] = pd.to_numeric(df[COL_SEVERITY], errors="coerce").fillna(5.0)
+df["area"]     = pd.to_numeric(df[COL_AREA],     errors="coerce").fillna(5.0)
+df["reports"]  = pd.to_numeric(df[COL_REPORTS],  errors="coerce").fillna(0.0)
+
+# Categorical
+df["is_anonymous"] = df[COL_ANON].apply(_to_bool)
