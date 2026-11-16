@@ -95,3 +95,10 @@ def compute_priority(severity, area, reports):
 
     df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
     df.columns = [c.strip() for c in df.columns]
+    # Target
+df["department"] = df[COL_DEPT].apply(_norm_dept)
+
+# Text
+df["issue_type"]  = df[COL_TYPE].apply(_norm_type)
+df["description"] = df[COL_DESC].fillna("").astype(str)
+df["text"] = ...
