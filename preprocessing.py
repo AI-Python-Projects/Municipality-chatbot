@@ -90,3 +90,8 @@ def compute_priority(severity, area, reports):
     if score >= PRIORITY_BANDS["medium"]:
         return score, "medium"
     return score, "low"
+    def load_and_prepare(path):
+    df = pd.read_csv(path)
+
+    df = df.loc[:, ~df.columns.str.contains("^Unnamed")]
+    df.columns = [c.strip() for c in df.columns]
