@@ -83,3 +83,73 @@ def _save_confusion_matrix(y_true, y_pred):
     plt.savefig(path, bbox_inches="tight")
     plt.close()
     print(f"Chart saved -> {path}")
+    
+
+def _save_per_class(y_true, y_pred):
+    labels = sorted(y_true.unique())
+    report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
+    rows = [(k, v["precision"], v["recall"], v["f1-score"])
+            for k, v in report.items() if k in labels]
+    per_df = pd.DataFrame(rows, columns=["class", "precision", "recall", "f1"])
+    per_m  = per_df.melt(id_vars="class", var_name="metric", value_name="score")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(data=per_m, x="score", y="class",
+                hue="metric", palette="Set2", ax=ax)
+    ax.set_title("Precision / Recall / F1 per Department", fontweight="bold")
+    ax.set_xlim(0, 1.05)
+    ax.set_ylabel("")
+    plt.tight_layout()
+    path = os.path.join(OUTPUT_DIR, "per_class_scores.png")
+    plt.savefig(path, bbox_inches="tight")
+    plt.close()
+    print(f"Chart saved -> {path}")
+
+
+def _save_confidence(model, X_test):
+    try:
+        proba = model.predict_proba(X_test)
+        conf  = proba.max(axis=1)
+        fig, ax = plt.subplots(figsize=(9, 5))
+        sns.histplot(conf, bins=20, kde=True, color="#4C72B0", ax=ax)
+        ax.axvline(float(np.mean(conf)), color="red", linestyle="--",
+                   label=f"Mean = {np.mean(conf):.3f}")
+        ax.set_title("Prediction Confidence Distribution", fontweight="bold")
+        ax.set_xlabel("Max predicted probability")
+        ax.set_ylabel("Number of samples")
+        ax.legend()
+        plt.tight_layout()
+        path = os.path.join(OUTPUT_DIR, "confidence_distribution.png")
+        plt.savefig(path, bbox_inches="tight")
+        plt.close()
+        print(f"Chart saved -> {path}")
+    except Exception as e:
+        print(f"(confidence chart skipped: {e})")
+
+
+def _save_feature_importance(model):
+    try:
+        clf   = model.named_steps["clf"]
+        pre   = model.named_steps["preprocess"]
+        names = np.concatenate([
+            pre.named_transformers_["text"].get_feature_names_out(),
+            ["severity", "area", "reports", "is_weekend"],
+            pre.named_transformers_["cat"].get_feature_names_out(),
+        ])
+        imp = clf.feature_importances_
+        top = np.argsort(imp)[-20:]
+        fig, ax = plt.subplots(figsize=(10, 7))
+        sns.barplot(x=imp[top], y=names[top], palette="crest", ax=ax)
+        ax.set_title("Top 20 Feature Importances", fontweight="bold")
+        ax.set_xlabel("Importance")
+        ax.set_ylabel("")
+        plt.tight_layout()
+        path = os.path.join(OUTPUT_DIR, "feature_importance.png")
+        plt.savefig(path, bbox_inches="tight")
+        plt.close()
+        print(f"Chart saved -> {path}")
+    except Exception as e:
+        print(f"(feature importance skipped: {e})")
+
+
+if __name__ == "__main__":
+    main()
