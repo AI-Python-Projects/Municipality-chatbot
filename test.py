@@ -81,3 +81,22 @@ def main():
     plt.savefig(path, bbox_inches="tight")
     plt.close()
     print(f"Chart saved -> {path}")
+
+    def _save_per_class(y_true, y_pred):
+    labels = sorted(y_true.unique())
+    report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
+    rows = [(k, v["precision"], v["recall"], v["f1-score"])
+            for k, v in report.items() if k in labels]
+    per_df = pd.DataFrame(rows, columns=["class", "precision", "recall", "f1"])
+    per_m  = per_df.melt(id_vars="class", var_name="metric", value_name="score")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    sns.barplot(data=per_m, x="score", y="class",
+                hue="metric", palette="Set2", ax=ax)
+    ax.set_title("Precision / Recall / F1 per Department", fontweight="bold")
+    ax.set_xlim(0, 1.05)
+    ax.set_ylabel("")
+    plt.tight_layout()
+    path = os.path.join(OUTPUT_DIR, "per_class_scores.png")
+    plt.savefig(path, bbox_inches="tight")
+    plt.close()
+    print(f"Chart saved -> {path}")
