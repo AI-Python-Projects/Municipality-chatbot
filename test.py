@@ -120,3 +120,27 @@ def main():
         print(f"Chart saved -> {path}")
     except Exception as e:
         print(f"(confidence chart skipped: {e})")
+
+        def _save_feature_importance(model):
+    try:
+        clf   = model.named_steps["clf"]
+        pre   = model.named_steps["preprocess"]
+        names = np.concatenate([
+            pre.named_transformers_["text"].get_feature_names_out(),
+            ["severity", "area", "reports", "is_weekend"],
+            pre.named_transformers_["cat"].get_feature_names_out(),
+        ])
+        imp = clf.feature_importances_
+        top = np.argsort(imp)[-20:]
+        fig, ax = plt.subplots(figsize=(10, 7))
+        sns.barplot(x=imp[top], y=names[top], palette="crest", ax=ax)
+        ax.set_title("Top 20 Feature Importances", fontweight="bold")
+        ax.set_xlabel("Importance")
+        ax.set_ylabel("")
+        plt.tight_layout()
+        path = os.path.join(OUTPUT_DIR, "feature_importance.png")
+        plt.savefig(path, bbox_inches="tight")
+        plt.close()
+        print(f"Chart saved -> {path}")
+    except Exception as e:
+        print(f"(feature importance skipped: {e})")
