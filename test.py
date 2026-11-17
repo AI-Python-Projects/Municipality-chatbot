@@ -100,3 +100,23 @@ def main():
     plt.savefig(path, bbox_inches="tight")
     plt.close()
     print(f"Chart saved -> {path}")
+
+    def _save_confidence(model, X_test):
+    try:
+        proba = model.predict_proba(X_test)
+        conf  = proba.max(axis=1)
+        fig, ax = plt.subplots(figsize=(9, 5))
+        sns.histplot(conf, bins=20, kde=True, color="#4C72B0", ax=ax)
+        ax.axvline(float(np.mean(conf)), color="red", linestyle="--",
+                   label=f"Mean = {np.mean(conf):.3f}")
+        ax.set_title("Prediction Confidence Distribution", fontweight="bold")
+        ax.set_xlabel("Max predicted probability")
+        ax.set_ylabel("Number of samples")
+        ax.legend()
+        plt.tight_layout()
+        path = os.path.join(OUTPUT_DIR, "confidence_distribution.png")
+        plt.savefig(path, bbox_inches="tight")
+        plt.close()
+        print(f"Chart saved -> {path}")
+    except Exception as e:
+        print(f"(confidence chart skipped: {e})")
