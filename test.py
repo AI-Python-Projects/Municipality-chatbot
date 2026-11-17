@@ -46,3 +46,21 @@ def main():
     print(f"  Precision : {prec:.4f}   (weighted)")
     print(f"  Recall    : {rec:.4f}   (weighted)")
     print(f"  F1-score  : {f1:.4f}   (weighted)")
+
+     report_txt = classification_report(y_true, y_pred, zero_division=0)
+    print("\n" + report_txt)
+
+    _save_confusion_matrix(y_true, y_pred)
+    _save_per_class(y_true, y_pred)
+    _save_confidence(model, X_test)
+    _save_feature_importance(model)
+
+    report_path = os.path.join(OUTPUT_DIR, "classification_report.txt")
+    with open(report_path, "w") as f:
+        f.write(f"Accuracy  : {acc:.4f}\n")
+        f.write(f"Precision : {prec:.4f}  (weighted)\n")
+        f.write(f"Recall    : {rec:.4f}  (weighted)\n")
+        f.write(f"F1-score  : {f1:.4f}  (weighted)\n\n")
+        f.write(report_txt)
+    print(f"\nReport saved -> {report_path}")
+    print("\n[DONE] Testing complete.")
