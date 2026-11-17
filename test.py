@@ -64,3 +64,20 @@ def main():
         f.write(report_txt)
     print(f"\nReport saved -> {report_path}")
     print("\n[DONE] Testing complete.")
+
+    def _save_confusion_matrix(y_true, y_pred):
+    labels = sorted(y_true.unique())
+    cm = confusion_matrix(y_true, y_pred, labels=labels)
+    fig, ax = plt.subplots(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=labels, yticklabels=labels, ax=ax)
+    ax.set_title("Confusion Matrix - Test Set", fontweight="bold")
+    ax.set_xlabel("Predicted")
+    ax.set_ylabel("Actual")
+    plt.xticks(rotation=45, ha="right")
+    plt.yticks(rotation=0)
+    plt.tight_layout()
+    path = os.path.join(OUTPUT_DIR, "confusion_matrix.png")
+    plt.savefig(path, bbox_inches="tight")
+    plt.close()
+    print(f"Chart saved -> {path}")
