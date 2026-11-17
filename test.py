@@ -32,3 +32,17 @@ def main():
     print(f"Model : {MODEL_PATH}")
     print(f"Data  : {TEST_CSV}  ({len(df)} rows)\n")
 
+    X_test = df.drop(columns=["department"])
+    y_true = df["department"]
+    y_pred = model.predict(X_test)
+
+    acc  = accuracy_score(y_true, y_pred)
+    prec = precision_score(y_true, y_pred, average="weighted", zero_division=0)
+    rec  = recall_score(y_true, y_pred, average="weighted", zero_division=0)
+    f1   = f1_score(y_true, y_pred, average="weighted", zero_division=0)
+
+    print("-- Overall performance --")
+    print(f"  Accuracy  : {acc:.4f}")
+    print(f"  Precision : {prec:.4f}   (weighted)")
+    print(f"  Recall    : {rec:.4f}   (weighted)")
+    print(f"  F1-score  : {f1:.4f}   (weighted)")
