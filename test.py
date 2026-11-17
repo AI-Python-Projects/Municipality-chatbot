@@ -144,3 +144,6 @@ def main():
         print(f"Chart saved -> {path}")
     except Exception as e:
         print(f"(feature importance skipped: {e})")
+
+        if __name__ == "__main__":
+    main()
