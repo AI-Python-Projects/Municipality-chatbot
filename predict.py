@@ -72,3 +72,7 @@ def _row(description, issue_type, severity, area, reports, is_anonymous):
         "is_anonymous": int(is_anonymous),
         "is_weekend":   0,
     }
+
+def _sla_for(department, priority):
+    return SLA_TABLE.get((department, priority),
+                         DEFAULT_SLA_HOURS.get(priority, 72))
