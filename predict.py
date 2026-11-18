@@ -61,3 +61,14 @@ def _infer_issue_type(text):
             best_hits = hits
             best = itype
     return best
+
+def _row(description, issue_type, severity, area, reports, is_anonymous):
+    return {
+        "text":         f"{issue_type.lower()} {description.lower()}",
+        "issue_type":   issue_type.lower(),
+        "severity":     float(severity),
+        "area":         float(area),
+        "reports":      float(reports),
+        "is_anonymous": int(is_anonymous),
+        "is_weekend":   0,
+    }
