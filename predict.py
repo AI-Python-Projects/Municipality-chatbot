@@ -81,3 +81,15 @@ def predict_department(description, issue_type="unknown",
                        severity=5, area=5, reports=10, is_anonymous=False):
     row = _row(description, issue_type, severity, area, reports, is_anonymous)
     return model.predict(pd.DataFrame([row]))[0]
+
+def analyse_auto(description):
+    itype = _infer_issue_type(description)
+    stats = ISSUE_STATS.get(itype,
+                            {"severity": 5.0, "area": 5.0, "reports": 10.0})
+    department = predict_department(
+        description, itype,
+        stats["severity"], stats["area"], stats["reports"], False,
+    )
+    score, priority = compute_priority(
+        stats["severity"], stats["area"], stats["reports"],
+    )
