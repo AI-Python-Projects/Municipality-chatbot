@@ -51,3 +51,13 @@ if os.path.exists(ISSUE_STATS_CSV):
                         "furniture", "tires", "appliances", "electronics"],
     "graffiti":        ["graffiti", "vandalism", "spray paint", "tags"],
 }
+
+def _infer_issue_type(text):
+    t = text.lower()
+    best, best_hits = "unknown", 0
+    for itype, kws in _KEYWORDS.items():
+        hits = sum(1 for kw in kws if kw in t)
+        if hits > best_hits:
+            best_hits = hits
+            best = itype
+    return best
