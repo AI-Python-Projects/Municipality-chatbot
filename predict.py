@@ -76,3 +76,8 @@ def _row(description, issue_type, severity, area, reports, is_anonymous):
 def _sla_for(department, priority):
     return SLA_TABLE.get((department, priority),
                          DEFAULT_SLA_HOURS.get(priority, 72))
+
+def predict_department(description, issue_type="unknown",
+                       severity=5, area=5, reports=10, is_anonymous=False):
+    row = _row(description, issue_type, severity, area, reports, is_anonymous)
+    return model.predict(pd.DataFrame([row]))[0]
