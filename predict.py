@@ -29,3 +29,25 @@ if os.path.exists(ISSUE_STATS_CSV):
         }
         for _, r in _s.iterrows()
     }
+
+    _KEYWORDS = {
+    "pothole":         ["pothole", "asphalt", "crater", "road damage",
+                        "road surface", "pavement", "cracked road"],
+    "noise":           ["noise", "loud", "music", "humming", "barking",
+                        "party", "construction", "fan", "hvac", "machinery",
+                        "bass", "alarm"],
+    "water_leakage":   ["water leak", "leaking", "hydrant", "pipe",
+                        "burst", "water main", "bubbling", "puddle"],
+    "streetlight":     ["streetlight", "street light", "lamp", "flickering",
+                        "bulb", "light pole", "lights out"],
+    "drainage":        ["drain", "sewer", "storm drain", "manhole",
+                        "flooding", "standing water", "water pools", "grate"],
+    "garbage":         ["garbage", "trash", "litter", "dumpster", "bin",
+                        "rubbish", "waste", "recycling", "debris"],
+    "illegal_parking": ["illegal parking", "double-parked", "double parked",
+                        "parked on", "fire hydrant", "no-parking",
+                        "bike lane", "driveway", "abandoned vehicle"],
+    "illegal_dumping": ["illegal dumping", "dumping", "dumped", "mattress",
+                        "furniture", "tires", "appliances", "electronics"],
+    "graffiti":        ["graffiti", "vandalism", "spray paint", "tags"],
+}
