@@ -93,3 +93,13 @@ def analyse_auto(description):
     score, priority = compute_priority(
         stats["severity"], stats["area"], stats["reports"],
     )
+    return {
+            "detected_issue_type": itype,
+            "department":          department,
+            "priority_level":      priority,
+            "priority_score":      score,
+            "sla_hours":           _sla_for(department, priority),
+            "inferred_severity":   stats["severity"],
+            "inferred_area":       stats["area"],
+            "inferred_reports":    stats["reports"],
+        }
