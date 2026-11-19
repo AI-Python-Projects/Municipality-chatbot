@@ -395,3 +395,30 @@ with tab4:
                           yaxis_title="")
         c2.plotly_chart(style(fig, "Avg Resolution by Department"),
                         use_container_width=True)
+
+# ---- TAB 5 ----
+with tab5:
+    st.subheader("Model Predictions on Full Dataset")
+
+    correct = (df_pred["predicted_department"] == df_pred["department"]).sum()
+
+    c1, c2, c3 = st.columns(3)
+    kpi(c1, f"{correct:,}", "Correctly Routed", PALETTE[5])
+    kpi(c2, f"{len(df_pred)-correct:,}", "Misrouted", PALETTE[4])
+    kpi(c3, f"{df_pred['confidence'].mean():.3f}",
+        "Avg Confidence", PALETTE[0])
+
+    st.markdown("### Predictions Table")
+    display_cols = ["department", "predicted_department",
+                    "issue_type", "priority_level",
+                    "severity", "area", "reports", "confidence"]
+    st.dataframe(df_pred[display_cols].head(100),
+                 use_container_width=True, hide_index=True)
+
+    csv_bytes = df_pred.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        label="Download Full Predictions (CSV)",
+        data=csv_bytes,
+        file_name="all_predictions.csv",
+        mime="text/csv",
+    )
