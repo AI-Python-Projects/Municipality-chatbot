@@ -291,3 +291,34 @@ with tab3:
     fig.update_yaxes(autorange="reversed")
     st.plotly_chart(fig, use_container_width=True)
 
+st.markdown("### Per-Department Scores")
+    report_dict = classification_report(y_true, y_pred,
+                                        output_dict=True, zero_division=0)
+    per = pd.DataFrame([
+        {"Department": k,
+         "Precision":  round(v["precision"], 3),
+         "Recall":     round(v["recall"], 3),
+         "F1":         round(v["f1-score"], 3),
+         "Support":    int(v["support"])}
+        for k, v in report_dict.items() if k in labels
+    ])
+fig = px.bar(
+        per.melt(id_vars="Department",
+                 value_vars=["Precision", "Recall", "F1"],
+                 var_name="Metric", value_name="Score"),
+        x="Score", y="Department", color="Metric",
+        barmode="group", color_discrete_sequence=PALETTE,
+    )
+    fig.update_layout(xaxis=dict(range=[0, 1.05]))
+    st.plotly_chart(style(fig, ""), use_container_width=True)
+    st.dataframe(per, use_container_width=True, hide_index=True)
+
+    st.markdown("### Feature Importance")
+    try:
+        clf  = model.named_steps["clf"]
+        pre  = model.named_steps["preprocess"]
+        names = np.concatenate([
+            pre.named_transformers_["text"].get_feature_names_out(),
+            ["severity", "area", "reports", "is_weekend"],
+            pre.named_transformers_["cat"].get_feature_names_out(),
+        ])
