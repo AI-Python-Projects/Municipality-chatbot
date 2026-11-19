@@ -215,3 +215,42 @@ with tab1:
         fig = px.bar(city_counts, x="Reports", y="City", orientation="h",
                      color="Reports", color_continuous_scale="Blues")
         st.plotly_chart(style(fig, ""), use_container_width=True)
+
+    # ---- TAB 2 ----
+with tab2:
+    c1, c2 = st.columns(2)
+
+    dept_counts = df["department"].value_counts().reset_index()
+    dept_counts.columns = ["Department", "Reports"]
+    fig = px.bar(dept_counts, x="Reports", y="Department",
+                 orientation="h", color="Reports",
+                 color_continuous_scale="Blues", text="Reports")
+    fig.update_traces(textposition="outside")
+    c1.plotly_chart(style(fig, "Reports per Department"), use_container_width=True)
+
+    type_counts = df["issue_type"].value_counts().reset_index()
+    type_counts.columns = ["Issue Type", "Reports"]
+    fig = px.bar(type_counts, x="Reports", y="Issue Type",
+                 orientation="h", color="Reports",
+                 color_continuous_scale="Teal", text="Reports")
+    fig.update_traces(textposition="outside")
+    c2.plotly_chart(style(fig, "Reports per Issue Type"), use_container_width=True)
+
+    c3, c4 = st.columns(2)
+
+    fig = px.histogram(df, x="severity", nbins=10,
+                           color_discrete_sequence=[PALETTE[3]])
+        fig.update_layout(xaxis_title="Severity Score", yaxis_title="Frequency")
+        c3.plotly_chart(style(fig, "Severity Distribution"), use_container_width=True)
+    
+        fig = px.histogram(df, x="area", nbins=10,
+                           color_discrete_sequence=[PALETTE[1]])
+        fig.update_layout(xaxis_title="Area Importance", yaxis_title="Frequency")
+        c4.plotly_chart(style(fig, "Area Importance Distribution"),
+                        use_container_width=True)
+    
+        fig = px.histogram(df, x="reports", nbins=20,
+                           color_discrete_sequence=[PALETTE[2]])
+        fig.update_layout(xaxis_title="Citizen Reports Count",
+                          yaxis_title="Frequency")
+        st.plotly_chart(style(fig, "Citizen Reports Volume"), use_container_width=True)
