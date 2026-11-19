@@ -93,3 +93,25 @@ def kpi(col, value, label, color):
         f'</div>',
         unsafe_allow_html=True,
     )
+
+
+    def style(fig, title=""):
+    fig.update_layout(
+        title=dict(text=title, font=dict(size=15, color="#0f4c81")),
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+        font=dict(family="Arial", size=12),
+        margin=dict(l=40, r=20, t=60, b=40),
+        height=420,
+    )
+    return fig
+
+
+# =====================================================================
+st.markdown('<div class="main-title">Municipal Services ML Dashboard</div>',
+            unsafe_allow_html=True)
+st.markdown(
+    '<div class="subtitle">Automated routing, prioritisation and SLA analytics '
+    'powered by machine learning.</div>',
+    unsafe_allow_html=True,
+)
