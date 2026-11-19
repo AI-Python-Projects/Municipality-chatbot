@@ -51,3 +51,22 @@ PRIORITY_COLORS = {
     "medium":   "#2e86ab",
     "low":      "#6a994e",
 }
+
+
+@st.cache_data(show_spinner="Loading dataset...")
+def load_data():
+    return load_and_prepare(TRAIN_CSV)
+
+
+@st.cache_resource(show_spinner="Loading ML model...")
+def load_model():
+    if not os.path.exists(MODEL_PATH):
+        return None
+    return joblib.load(MODEL_PATH)
+
+
+@st.cache_data(show_spinner="Loading SLA targets...")
+def load_sla():
+    if not os.path.exists(SLA_CSV):
+        return pd.DataFrame()
+    return pd.read_csv(SLA_CSV)
