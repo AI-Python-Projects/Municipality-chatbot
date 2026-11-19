@@ -138,3 +138,21 @@ _, test_df = train_test_split(
 X_test = test_df.drop(columns=["department"])
 y_true = test_df["department"]
 y_pred = model.predict(X_test)
+
+acc  = accuracy_score(y_true, y_pred)
+prec = precision_score(y_true, y_pred, average="weighted", zero_division=0)
+rec  = recall_score(y_true, y_pred, average="weighted", zero_division=0)
+f1   = f1_score(y_true, y_pred, average="weighted", zero_division=0)
+
+c1, c2, c3, c4 = st.columns(4)
+kpi(c1, f"{len(df):,}",  "Total Reports",  PALETTE[0])
+kpi(c2, f"{df['department'].nunique()}", "Departments", PALETTE[1])
+kpi(c3, f"{df['issue_type'].nunique()}",  "Issue Types", PALETTE[2])
+kpi(c4, f"{acc*100:.1f}%", "Model Accuracy", PALETTE[5])
+
+st.markdown("---")
+
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    "Overview", "Distributions", "ML Performance",
+    "SLA Analysis", "Full Predictions",
+])
