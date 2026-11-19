@@ -115,3 +115,26 @@ st.markdown(
     'powered by machine learning.</div>',
     unsafe_allow_html=True,
 )
+
+df     = load_data()
+model  = load_model()
+sla_df = load_sla()
+
+if model is None:
+    st.error("Model not found. Run `python train.py` first, then refresh.")
+    st.stop()
+
+# defensive: ensure optional columns exist
+for col, default in [("city", "unknown"), ("state", "unknown"),
+                    ("status", "unknown")]:
+    if col not in df.columns:
+        df[col] = default
+
+df_pred = predict_all(df)
+
+_, test_df = train_test_split(
+    df, test_size=0.20, random_state=42, stratify=df["department"]
+)
+X_test = test_df.drop(columns=["department"])
+y_true = test_df["department"]
+y_pred = model.predict(X_test)
