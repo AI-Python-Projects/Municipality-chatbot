@@ -340,3 +340,34 @@ fig = px.bar(
             fig.update_layout(xaxis_title="Max Predicted Probability",
                               yaxis_title="Number of Reports")
             st.plotly_chart(style(fig, ""), use_container_width=True)
+
+        # ---- TAB 4 ----
+with tab4:
+    if sla_df.empty:
+        st.warning("SLA targets not found. Run `python train.py` first.")
+    else:
+        st.subheader("SLA Matrix - Department vs Priority")
+        pivot = sla_df.pivot(index="department", columns="priority_level",
+                             values="sla_hours")
+        pivot = pivot.reindex(columns=["low", "medium", "high", "critical"])
+
+        fig = go.Figure(data=go.Heatmap(
+            z=pivot.values, x=pivot.columns, y=pivot.index,
+            colorscale="YlOrRd", text=pivot.values,
+            texttemplate="%{text}h", textfont={"size": 12},
+            colorbar=dict(title="Hours"),
+        ))
+        fig.update_layout(
+            title="Expected Response Time by Department and Priority",
+            xaxis_title="Priority Level", yaxis_title="", height=480,
+        )
+        fig.update_yaxes(autorange="reversed")
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.subheader("SLA Targets Table")
+        sla_display = sla_df.sort_values(["department", "priority_level"])
+        st.dataframe(sla_display, use_container_width=True, hide_index=True)
+
+        resolved = df[df["resolution_hours"].notna() &
+                      (df["resolution_hours"] > 0)]
+
