@@ -254,3 +254,40 @@ with tab2:
         fig.update_layout(xaxis_title="Citizen Reports Count",
                           yaxis_title="Frequency")
         st.plotly_chart(style(fig, "Citizen Reports Volume"), use_container_width=True)
+
+    st.subheader("Department Statistics")
+        stats = (
+            df.groupby("department")
+              .agg(Reports=("department", "count"),
+                   Avg_Severity=("severity", "mean"),
+                   Avg_Area=("area", "mean"),
+                   Avg_Citizen_Reports=("reports", "mean"),
+                   Avg_Resolution_Hours=("resolution_hours", "mean"))
+              .round(2).reset_index()
+              .rename(columns={"department": "Department"})
+              .sort_values("Reports", ascending=False)
+        )
+        st.dataframe(stats, use_container_width=True, hide_index=True)
+
+    # ---- TAB 3 ----
+with tab3:
+    c1, c2, c3, c4 = st.columns(4)
+    kpi(c1, f"{acc:.3f}",  "Accuracy",  PALETTE[0])
+    kpi(c2, f"{prec:.3f}", "Precision", PALETTE[1])
+    kpi(c3, f"{rec:.3f}",  "Recall",    PALETTE[2])
+    kpi(c4, f"{f1:.3f}",   "F1 Score",  PALETTE[5])
+
+    st.markdown("### Confusion Matrix")
+    labels = sorted(y_true.unique())
+    cm = confusion_matrix(y_true, y_pred, labels=labels)
+    fig = go.Figure(data=go.Heatmap(
+        z=cm, x=labels, y=labels, colorscale="Blues",
+        text=cm, texttemplate="%{text}", textfont={"size": 12},
+        colorbar=dict(title="Count"),
+    ))
+    fig.update_layout(title="Confusion Matrix (Test Set)",
+                      xaxis_title="Predicted", yaxis_title="Actual",
+                      height=500, plot_bgcolor="white")
+    fig.update_yaxes(autorange="reversed")
+    st.plotly_chart(fig, use_container_width=True)
+
