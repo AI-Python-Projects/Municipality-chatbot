@@ -40,3 +40,14 @@ st.markdown("""
 .block-container { padding-top: 2rem; }
 </style>
 """, unsafe_allow_html=True)
+
+PALETTE = [
+    "#0f4c81", "#2e86ab", "#a23b72", "#f18f01",
+    "#c73e1d", "#6a994e", "#8e5572", "#457b9d", "#bc4749",
+]
+PRIORITY_COLORS = {
+    "critical": "#c73e1d",
+    "high":     "#f18f01",
+    "medium":   "#2e86ab",
+    "low":      "#6a994e",
+}
