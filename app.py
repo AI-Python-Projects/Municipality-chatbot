@@ -422,3 +422,17 @@ with tab5:
         file_name="all_predictions.csv",
         mime="text/csv",
     )
+
+    st.markdown("### Mismatched Predictions")
+        mism = df_pred[df_pred["predicted_department"] != df_pred["department"]]
+        st.caption(f"{len(mism)} reports were misrouted "
+                   f"({len(mism)/len(df_pred)*100:.2f}%)")
+        if not mism.empty:
+            st.dataframe(mism[display_cols].head(20),
+                         use_container_width=True, hide_index=True)
+    
+    st.markdown("---")
+    st.caption(
+        f"Municipal Services ML Dashboard  |  Random Forest + TF-IDF  |  "
+        f"Trained on {len(df):,} reports"
+    )
