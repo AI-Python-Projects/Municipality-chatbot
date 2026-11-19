@@ -70,3 +70,26 @@ def load_sla():
     if not os.path.exists(SLA_CSV):
         return pd.DataFrame()
     return pd.read_csv(SLA_CSV)
+
+
+@st.cache_data(show_spinner="Running model...")
+def predict_all(_df):
+    model = joblib.load(MODEL_PATH)
+    X = _df.drop(columns=["department"])
+    out = _df.copy()
+    out["predicted_department"] = model.predict(X)
+    if hasattr(model, "predict_proba"):
+        out["confidence"] = model.predict_proba(X).max(axis=1).round(3)
+    else:
+        out["confidence"] = np.nan
+    return out
+
+
+def kpi(col, value, label, color):
+    col.markdown(
+        f'<div class="kpi-card" style="background:linear-gradient(135deg,{color} 0%,{color}cc 100%);">'
+        f'<div class="kpi-val">{value}</div>'
+        f'<div class="kpi-lbl">{label}</div>'
+        f'</div>',
+        unsafe_allow_html=True,
+    )
