@@ -156,3 +156,27 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Overview", "Distributions", "ML Performance",
     "SLA Analysis", "Full Predictions",
 ])
+
+# ---- TAB 1 ----
+with tab1:
+    st.subheader("Dataset Summary")
+    summary = pd.DataFrame({
+        "Metric": [
+            "Total reports", "Departments", "Issue types",
+            "Cities", "States", "Anonymous reports",
+            "Date range (start)", "Date range (end)",
+        ],
+        "Value": [
+            f"{len(df):,}",
+            f"{df['department'].nunique()}",
+            f"{df['issue_type'].nunique()}",
+            f"{df['city'].nunique()}",
+            f"{df['state'].nunique()}",
+            f"{int(df['is_anonymous'].sum()):,} "
+            f"({df['is_anonymous'].mean()*100:.1f}%)",
+            str(df["report_datetime"].min().date())
+            if df["report_datetime"].notna().any() else "n/a",
+            str(df["report_datetime"].max().date())
+            if df["report_datetime"].notna().any() else "n/a",
+        ],
+    })
