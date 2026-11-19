@@ -180,3 +180,38 @@ with tab1:
             if df["report_datetime"].notna().any() else "n/a",
         ],
     })
+    st.dataframe(summary, use_container_width=True, hide_index=True)
+    
+    st.subheader("First 10 Rows")
+        cols = ["issue_type", "description", "department",
+                "priority_level", "severity", "area", "reports", "city"]
+        st.dataframe(df[cols].head(10), use_container_width=True, hide_index=True)
+    
+        c1, c2, c3 = st.columns(3)
+    
+        status_counts = df["status"].value_counts()
+        fig = px.pie(values=status_counts.values, names=status_counts.index,
+                     color_discrete_sequence=PALETTE, hole=0.45)
+        fig.update_traces(textposition="inside", textinfo="percent+label")
+        c1.plotly_chart(style(fig, "Status Breakdown"), use_container_width=True)
+    
+        anon_counts = df["is_anonymous"].map(
+            {0: "Identified", 1: "Anonymous"}).value_counts()
+        fig = px.pie(values=anon_counts.values, names=anon_counts.index,
+                     color_discrete_sequence=[PALETTE[1], PALETTE[4]], hole=0.45)
+        fig.update_traces(textposition="inside", textinfo="percent+label")
+        c2.plotly_chart(style(fig, "Reporter Type"), use_container_width=True)
+
+    priority_counts = df["priority_level"].value_counts()
+        fig = px.pie(values=priority_counts.values, names=priority_counts.index,
+                     color=priority_counts.index,
+                     color_discrete_map=PRIORITY_COLORS, hole=0.45)
+        fig.update_traces(textposition="inside", textinfo="percent+label")
+        c3.plotly_chart(style(fig, "Priority Distribution"), use_container_width=True)
+    
+        st.subheader("Top Cities by Report Volume")
+        city_counts = df["city"].value_counts().head(10).reset_index()
+        city_counts.columns = ["City", "Reports"]
+        fig = px.bar(city_counts, x="Reports", y="City", orientation="h",
+                     color="Reports", color_continuous_scale="Blues")
+        st.plotly_chart(style(fig, ""), use_container_width=True)
