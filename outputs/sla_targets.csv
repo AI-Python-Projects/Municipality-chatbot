@@ -1,0 +1,37 @@
+department,priority_level,sla_hours
+Drainage,low,179
+Drainage,medium,97
+Drainage,high,138
+Drainage,critical,8
+Electrical,low,276
+Electrical,medium,193
+Electrical,high,124
+Electrical,critical,8
+Parks,low,168
+Parks,medium,72
+Parks,high,24
+Parks,critical,8
+Public Safety,low,248
+Public Safety,medium,166
+Public Safety,high,193
+Public Safety,critical,8
+Public Works,low,168
+Public Works,medium,72
+Public Works,high,24
+Public Works,critical,8
+Roads,low,110
+Roads,medium,207
+Roads,high,166
+Roads,critical,8
+Sanitation,low,193
+Sanitation,medium,179
+Sanitation,high,166
+Sanitation,critical,8
+Traffic,low,55
+Traffic,medium,221
+Traffic,high,166
+Traffic,critical,8
+Water,low,248
+Water,medium,152
+Water,high,28
+Water,critical,8

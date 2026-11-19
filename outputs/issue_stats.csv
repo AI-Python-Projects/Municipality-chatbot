@@ -1,0 +1,11 @@
+issue_type,median_severity,median_area,median_reports,count
+drainage,7.0,8.0,38.0,135
+garbage,7.0,7.0,35.5,158
+graffiti,2.0,7.0,29.0,26
+illegal_dumping,2.0,7.0,20.0,23
+illegal_parking,7.0,8.0,37.0,133
+noise,7.0,8.0,37.5,136
+other,4.5,5.0,23.0,20
+pothole,7.0,8.0,33.5,150
+streetlight,7.0,7.0,37.0,140
+water_leakage,7.0,7.0,35.0,168

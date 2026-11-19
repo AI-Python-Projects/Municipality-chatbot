@@ -1,0 +1,20 @@
+Accuracy  : 0.9862
+Precision : 0.9870  (weighted)
+Recall    : 0.9862  (weighted)
+F1-score  : 0.9850  (weighted)
+
+               precision    recall  f1-score   support
+
+     Drainage       1.00      1.00      1.00        27
+   Electrical       1.00      1.00      1.00        28
+        Parks       1.00      0.50      0.67         2
+Public Safety       1.00      1.00      1.00        27
+ Public Works       1.00      0.75      0.86         8
+        Roads       0.94      1.00      0.97        29
+   Sanitation       1.00      1.00      1.00        36
+      Traffic       0.96      1.00      0.98        27
+        Water       1.00      1.00      1.00        34
+
+     accuracy                           0.99       218
+    macro avg       0.99      0.92      0.94       218
+ weighted avg       0.99      0.99      0.99       218
