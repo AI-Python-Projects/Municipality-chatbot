@@ -371,3 +371,27 @@ with tab4:
         resolved = df[df["resolution_hours"].notna() &
                       (df["resolution_hours"] > 0)]
 
+ c1, c2 = st.columns(2)
+
+        fig = px.box(
+            resolved, x="priority_level", y="resolution_hours",
+            color="priority_level", color_discrete_map=PRIORITY_COLORS,
+            category_orders={"priority_level":
+                             ["low", "medium", "high", "critical"]},
+        )
+        fig.update_layout(xaxis_title="Priority Level",
+                          yaxis_title="Resolution Time (Hours)")
+        c1.plotly_chart(style(fig, "Resolution Time by Priority"),
+                        use_container_width=True)
+
+        avg_res = (resolved.groupby("department")["resolution_hours"]
+                          .mean().round(1).reset_index()
+                          .sort_values("resolution_hours"))
+        fig = px.bar(avg_res, x="resolution_hours", y="department",
+                     orientation="h", color="resolution_hours",
+                     color_continuous_scale="Blues", text="resolution_hours")
+        fig.update_traces(textposition="outside")
+        fig.update_layout(xaxis_title="Avg Resolution (Hours)",
+                          yaxis_title="")
+        c2.plotly_chart(style(fig, "Avg Resolution by Department"),
+                        use_container_width=True)
