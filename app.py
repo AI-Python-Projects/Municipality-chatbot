@@ -322,3 +322,21 @@ fig = px.bar(
             ["severity", "area", "reports", "is_weekend"],
             pre.named_transformers_["cat"].get_feature_names_out(),
         ])
+        imp = clf.feature_importances_
+                top = np.argsort(imp)[-20:][::-1]
+                fi_df = pd.DataFrame({"Feature":    names[top],
+                                      "Importance": imp[top].round(4)})
+                fig = px.bar(fi_df, x="Importance", y="Feature", orientation="h",
+                             color="Importance", color_continuous_scale="Blues")
+                fig.update_layout(height=600)
+                st.plotly_chart(fig, use_container_width=True)
+            except Exception as e:
+                st.warning(f"Feature importance unavailable: {e}")
+        
+            st.markdown("### Prediction Confidence Distribution")
+            conf = df_pred["confidence"].dropna()
+            fig = px.histogram(conf, nbins=20,
+                               color_discrete_sequence=[PALETTE[0]])
+            fig.update_layout(xaxis_title="Max Predicted Probability",
+                              yaxis_title="Number of Reports")
+            st.plotly_chart(style(fig, ""), use_container_width=True)
